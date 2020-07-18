@@ -1,0 +1,38 @@
+{
+  "name": "@aom/api",
+  "version": "0.1.0",
+  "description": "AOM API",
+  "main": "dist/index.js",
+  "repository": "https://github.com/aldahick/aom",
+  "author": "Alex Hicks <alex@alexhicks.net> (https://alexhicks.net)",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "start:dev": "tsc-watch --onSuccess \"node dist/index.js\" | bunyan",
+    "docker:up": "cross-env COMPOSE_PROJECT_NAME=rex docker-compose up",
+    "build": "tsc",
+    "lint": "eslint --ext .ts .",
+    "generate": "npm run generate:graphql",
+    "generate:graphql": "graphql-codegen --config codegen.graphql.yml"
+  },
+  "dependencies": {
+    "@athenajs/core": "^0.4.5",
+    "@hapi/joi": "^17.1.1",
+    "@typegoose/typegoose": "^7.3.0",
+    "lodash": "^4.17.19",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.19",
+    "tsyringe": "^4.3.0"
+  },
+  "devDependencies": {
+    "@aldahick/eslint-rules": "^0.7.2",
+    "@graphql-codegen/cli": "^1.17.0",
+    "@graphql-codegen/typescript": "^1.17.0",
+    "@graphql-codegen/typescript-operations": "^1.17.0",
+    "@types/lodash": "^4.14.157",
+    "@types/mongoose": "^5.7.32",
+    "@types/source-map-support": "^0.5.2",
+    "tsc-watch": "^4.2.9",
+    "typescript": "^3.9.7"
+  }
+}
