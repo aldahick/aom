@@ -1,5 +1,6 @@
+import { HttpError,LoggerService } from "@athenajs/core";
 import { singleton } from "tsyringe";
-import { Champion } from "../../model/Champion";
+import { Champion, ChampionSpell } from "../../model/Champion";
 import { DatabaseService } from "../../service/database";
 import { LeagueService } from "../../service/league";
 
@@ -7,20 +8,38 @@ import { LeagueService } from "../../service/league";
 export class ChampionManager {
   constructor(
     private db: DatabaseService,
-    private league: LeagueService
+    private league: LeagueService,
+    private logger: LoggerService
   ) { }
 
-  async getAll() {
+  async get(id: string): Promise<Champion> {
+    const champion = await this.db.champions.findById(id);
+    if (!champion) {
+      throw HttpError.notFound(`Champion id=${id} not found`);
+    }
+    return champion;
+  }
+
+  async getAll(): Promise<Champion[]> {
     return this.db.champions.find();
   }
 
-  async update() {
-    const champions = await this.league.getChampions();
+  async update(): Promise<void> {
+    const rawChampions = await this.league.getAllChampions();
     await this.db.champions.deleteMany({});
-    await this.db.champions.insertMany(champions.map(c => new Champion({
-      _id: c.id,
-      name: c.name,
-      imageUrl: c.avatarUrl
-    })));
+    for (const { id, name, avatarUrl, version } of rawChampions) {
+      const { spells } = await this.league.getChampionSpells(id, version);
+      await this.db.champions.create(new Champion({
+        _id: id,
+        name,
+        imageUrl: avatarUrl,
+        spells: spells.map(s => new ChampionSpell({
+          name: s.name,
+          maxRank: s.maxrank,
+          imageUrl: s.imageUrl
+        }))
+      }));
+      this.logger.trace({ championName: name }, "championManager.update");
+    }
   }
 }

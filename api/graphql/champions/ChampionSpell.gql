@@ -1,0 +1,5 @@
+type ChampionSpell {
+  name: String!
+  maxRank: Int!
+  imageUrl: String!
+}
