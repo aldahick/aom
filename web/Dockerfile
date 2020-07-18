@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY package.json ./
 COPY yarn.lock ./
-RUN yarm install
+RUN yarn install
 
 COPY tsconfig.json ./
 COPY src ./src
