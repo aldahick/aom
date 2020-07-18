@@ -1,4 +1,5 @@
 type Champion {
   _id: String!
   name: String!
+  imageUrl: String!
 }

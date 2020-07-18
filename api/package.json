@@ -22,7 +22,8 @@
     "lodash": "^4.17.19",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19",
-    "tsyringe": "^4.3.0"
+    "tsyringe": "^4.3.0",
+    "twisted": "^1.25.0"
   },
   "devDependencies": {
     "@aldahick/eslint-rules": "^0.7.2",
