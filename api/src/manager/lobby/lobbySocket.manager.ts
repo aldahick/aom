@@ -42,7 +42,7 @@ export class LobbySocketManager {
   async sendMembers(lobbyId: string): Promise<void> {
     const lobby = await this.lobbyDataManager.get(lobbyId);
     const champions = await this.championManager.getAll();
-    const items = await this.itemManager.getAllFinal();
+    const items = await this.itemManager.getAll({ isFinal: true });
 
     const payload: ILobbyServerMembersPayload = {
       members: lobby.members.map(m => {

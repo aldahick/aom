@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as _ from "lodash";
 import { singleton } from "tsyringe";
 import { LolApi } from "twisted";
 import { ConfigService } from "../config";
@@ -55,6 +56,7 @@ export class LeagueService {
           image: {
             full: string;
           };
+          maps: {[key: string]: boolean};
         };
       };
     }>(`${DATA_DRAGON_URL}/${version}/data/en_US/item.json`);
@@ -63,8 +65,20 @@ export class LeagueService {
       name: item.name,
       isBoots: item.tags.includes("Boots"),
       isFinal: (item.into?.length || 0) === 0,
-      imageUrl: `${DATA_DRAGON_URL}/${version}/img/item/${item.image.full}`
+      imageUrl: `${DATA_DRAGON_URL}/${version}/img/item/${item.image.full}`,
+      mapIds: Object.entries(item.maps).filter(([, isActive]) => isActive).map(([mapId]) => mapId)
     }));
+  }
+
+  async getAllMaps() {
+    const maps = await this.getApiInstance().DataDragon.getMaps();
+    const items = await this.getAllItems();
+    const mapIds = _.uniq(_.flatten(items.map(i => i.mapIds)));
+    console.log(mapIds, maps);
+    return maps.map(m => ({
+      id: m.mapId.toString(),
+      name: m.mapName
+    })).filter(m => mapIds.includes(m.id));
   }
 
   async getCurrentVersion(): Promise<string> {

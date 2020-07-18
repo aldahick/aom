@@ -23,6 +23,7 @@ export type IChampion = {
 export type IMutation = {
   __typename?: 'Mutation';
   updateChampions: Scalars['Boolean'];
+  updateMaps: Scalars['Boolean'];
   updateItems: Scalars['Boolean'];
   createLobby: ILobby;
 };
@@ -31,6 +32,7 @@ export type IQuery = {
   __typename?: 'Query';
   champion: IChampion;
   champions: Array<IChampion>;
+  maps: Array<IMap>;
   items: Array<IItem>;
 };
 
@@ -45,6 +47,12 @@ export type IChampionSpell = {
   name: Scalars['String'];
   maxRank: Scalars['Int'];
   imageUrl: Scalars['String'];
+};
+
+export type IMap = {
+  __typename?: 'Map';
+  _id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type IItem = {

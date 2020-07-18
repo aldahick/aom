@@ -1,3 +1,4 @@
+import { MongooseFilterQuery } from "mongoose";
 import { singleton } from "tsyringe";
 import { Item } from "../../model/Item";
 import { DatabaseService } from "../../service/database";
@@ -10,12 +11,8 @@ export class ItemManager {
     private league: LeagueService
   ) { }
 
-  async getAll() {
-    return this.db.items.find();
-  }
-
-  async getAllFinal() {
-    return this.db.items.find({ isFinal: true });
+  async getAll(filter?: MongooseFilterQuery<Item>) {
+    return filter ? this.db.items.find(filter) : this.db.items.find();
   }
 
   async update() {

@@ -16,6 +16,9 @@ export class Item {
   @prop({ required: true })
   imageUrl!: string;
 
+  @prop({ required: true, type: String })
+  mapIds!: string[];
+
   constructor(init?: Item) {
     Object.assign(this, init);
   }

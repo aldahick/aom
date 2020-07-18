@@ -4,6 +4,7 @@ import { singleton } from "tsyringe";
 import { Champion } from "../../model/Champion";
 import { Item } from "../../model/Item";
 import { Lobby } from "../../model/Lobby";
+import { Map } from "../../model/Map";
 import { ConfigService } from "../config";
 
 @singleton()
@@ -11,6 +12,7 @@ export class DatabaseService {
   champions!: ReturnModelType<typeof Champion>;
   items!: ReturnModelType<typeof Item>;
   lobbies!: ReturnModelType<typeof Lobby>;
+  maps!: ReturnModelType<typeof Map>;
 
   constructor(
     private config: ConfigService,
@@ -23,5 +25,6 @@ export class DatabaseService {
     this.champions = this.mongo.getModel(Champion, "champions");
     this.items = this.mongo.getModel(Item, "items");
     this.lobbies = this.mongo.getModel(Lobby, "lobbies");
+    this.maps = this.mongo.getModel(Map, "maps");
   }
 }
