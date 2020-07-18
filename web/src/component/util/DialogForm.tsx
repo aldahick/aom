@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField,
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid,
+  TextField,
 } from "@material-ui/core";
 import * as _ from "lodash";
 import { useStores } from "../../hook/useStores";
 import { AddButton } from "./AddButton";
-import { Grids } from "./Grids";
 
 type OnChange = (value: string) => void;
 
@@ -70,10 +70,10 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          <Grids direction="column" spacing={2}>
+          <Grid container direction="column" spacing={2}>
             {(Object.entries(fields) as [FieldKey, FieldDefinition][])
               .map(([fieldKey, { label, render }], i) => (
-                <Fragment key={fieldKey}>
+                <Grid item key={fieldKey}>
                   {render
                     ? render(fieldValues[fieldKey], (value: string) => onFieldChange(fieldKey, value))
                     : (
@@ -85,9 +85,9 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
                         onKeyDown={checkEnterKey}
                       />
                     )}
-                </Fragment>
+                </Grid>
               ))}
-          </Grids>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button color="primary" variant="contained" onClick={submit}>Submit</Button>

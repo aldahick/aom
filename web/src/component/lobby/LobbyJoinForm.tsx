@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
-  Button, TextField, Typography,
+  Button, Grid,
+  TextField, Typography,
 } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { ILobbyClientJoinPayload } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { SocketEvent } from "../socket/SocketEvent";
-import { Grids } from "../util/Grids";
 
 const WEBSOCKET_EVENT = "lobby.client.join";
 const STORAGE_KEY = "summonerName";
@@ -40,19 +40,23 @@ export const LobbyJoinForm: React.FC<{
 
   return (
     <SocketEvent name={WEBSOCKET_EVENT} handle={onJoin}>
-      <Grids alignItems="flex-end">
-        <TextField
-          label="Your Summoner Name"
-          value={name}
-          onChange={evt => setName(evt.target.value)}
-          onKeyPress={evt => {
-            if (evt.key === "Enter") {
-              join();
-            }
-          }}
-        />
-        <Button variant="outlined" onClick={join}>Join</Button>
-      </Grids>
+      <Grid alignItems="flex-end">
+        <Grid item>
+          <TextField
+            label="Your Summoner Name"
+            value={name}
+            onChange={evt => setName(evt.target.value)}
+            onKeyPress={evt => {
+              if (evt.key === "Enter") {
+                join();
+              }
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" onClick={join}>Join</Button>
+        </Grid>
+      </Grid>
     </SocketEvent>
   );
 });

@@ -11,7 +11,6 @@ import { observer } from "mobx-react";
 import { Link as RouterLink } from "react-router-dom";
 import { scenes } from "../scenes";
 import { ThemeSelect } from "./settings/ThemeSelect";
-import { Grids } from "./util/Grids";
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -52,9 +51,11 @@ export const Navbar: React.FC = observer(() => {
             </Grid>
           ))}
           <Grid item className={classes.rightContainer}>
-            <Grids direction="row-reverse">
-              <ThemeSelect />
-            </Grids>
+            <Grid container direction="row-reverse">
+              <Grid item>
+                <ThemeSelect />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Toolbar>
