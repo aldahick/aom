@@ -34,6 +34,7 @@ export class ChampionManager {
         name,
         imageUrl: avatarUrl,
         spells: spells.map(s => new ChampionSpell({
+          _id: s.id,
           name: s.name,
           maxRank: s.maxrank,
           imageUrl: s.imageUrl

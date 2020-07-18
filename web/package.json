@@ -53,6 +53,7 @@
     "react-dom": "^16.13.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "socket.io-client": "^2.3.0",
     "typeface-open-sans": "0.0.75"
   },
   "devDependencies": {
@@ -66,6 +67,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
+    "@types/socket.io-client": "^1.4.33",
     "react-scripts": "^3.4.1",
     "serve": "^11.3.2",
     "typescript": "^3.9.6"

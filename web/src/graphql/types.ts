@@ -7,6 +7,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: Date;
   /** The `Upload` scalar type represents a file upload. */
   Upload: File;
 };
@@ -26,14 +27,43 @@ export type IChampion = {
 
 export type IChampionSpell = {
   __typename?: 'ChampionSpell';
+  _id: Scalars['String'];
   name: Scalars['String'];
   maxRank: Scalars['Int'];
   imageUrl: Scalars['String'];
 };
 
+
+export type ILobby = {
+  __typename?: 'Lobby';
+  _id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+};
+
+/** lobby.client.join */
+export type ILobbyClientJoinPayload = {
+  __typename?: 'LobbyClientJoinPayload';
+  lobbyId: Scalars['String'];
+  summonerName: Scalars['String'];
+};
+
+export type ILobbyMember = {
+  __typename?: 'LobbyMember';
+  summonerName: Scalars['String'];
+  champion?: Maybe<IChampion>;
+  spell?: Maybe<IChampionSpell>;
+};
+
+/** lobby.server.members */
+export type ILobbyServerMembersPayload = {
+  __typename?: 'LobbyServerMembersPayload';
+  members: Array<ILobbyMember>;
+};
+
 export type IMutation = {
   __typename?: 'Mutation';
   updateChampions: Scalars['Boolean'];
+  createLobby: ILobby;
 };
 
 export type IQuery = {

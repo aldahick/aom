@@ -40,6 +40,7 @@
     "@graphql-codegen/typescript-operations": "^1.17.0",
     "@types/lodash": "^4.14.157",
     "@types/mongoose": "^5.7.32",
+    "@types/randomstring": "^1.1.6",
     "@types/source-map-support": "^0.5.2",
     "tsc-watch": "^4.2.9",
     "typescript": "^3.9.7"

@@ -11,7 +11,7 @@ export class Champion {
   @prop({ required: true })
   imageUrl!: string;
 
-  @prop({ required: true, type: ChampionSpell, _id: false })
+  @prop({ required: true, type: ChampionSpell })
   spells!: ChampionSpell[];
 
   constructor(init?: Champion) {

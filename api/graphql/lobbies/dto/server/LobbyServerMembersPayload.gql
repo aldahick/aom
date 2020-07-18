@@ -1,0 +1,4 @@
+# lobby.server.members
+type LobbyServerMembersPayload {
+  members: [LobbyMember!]!
+}

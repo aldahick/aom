@@ -1,0 +1,5 @@
+# lobby.client.join
+type LobbyClientJoinPayload {
+  lobbyId: String!
+  summonerName: String!
+}

@@ -2,6 +2,9 @@ import { prop } from "@typegoose/typegoose";
 
 export class ChampionSpell {
   @prop({ required: true })
+  _id!: string;
+
+  @prop({ required: true })
   name!: string;
 
   @prop({ required: true })

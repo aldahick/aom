@@ -38,16 +38,18 @@ export const Navbar: React.FC = observer(() => {
   return (
     <AppBar>
       <Toolbar>
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" spacing={2}>
           <Grid item className={classes.titleContainer}>
             <Typography variant="h6" color="inherit" className={classes.titleText}>
               AOM
             </Typography>
           </Grid>
           {scenes.filter(s => !!s.navbarTitle).map(({ route, navbarTitle }) => (
-            <Link component={RouterLink} to={route} className={classes.navbarLink}>
-              <Typography color="inherit">{navbarTitle}</Typography>
-            </Link>
+            <Grid item key={route}>
+              <Link component={RouterLink} to={route} className={classes.navbarLink}>
+                <Typography color="inherit">{navbarTitle}</Typography>
+              </Link>
+            </Grid>
           ))}
           <Grid item className={classes.rightContainer}>
             <Grids direction="row-reverse">

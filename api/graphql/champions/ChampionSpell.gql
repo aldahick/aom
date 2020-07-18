@@ -1,4 +1,5 @@
 type ChampionSpell {
+  _id: String!
   name: String!
   maxRank: Int!
   imageUrl: String!

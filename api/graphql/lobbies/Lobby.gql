@@ -1,0 +1,4 @@
+type Lobby {
+  _id: String!
+  createdAt: DateTime!
+}
