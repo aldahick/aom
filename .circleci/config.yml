@@ -1,0 +1,125 @@
+version: 2.1
+
+executors:
+  node:
+    docker:
+      - image: cimg/node:12.18
+
+jobBase: &jobBase
+  parameters:
+    package_name:
+      type: string
+  executor: node
+  working_directory: ~/project/<< parameters.package_name >>
+
+jobs:
+  install-dependencies:
+    <<: *jobBase
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          keys:
+          - v1-dependencies-<< parameters.package_name >>-{{ checksum "yarn.lock" }}
+          - v1-dependencies-<< parameters.package_name >>
+      - run:
+          name: Install NPM modules
+          command: yarn
+      - save_cache:
+          key: v1-dependencies-<< parameters.package_name >>-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - << parameters.package_name >>
+  lint:
+    <<: *jobBase
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Lint
+          command: yarn lint
+  build:
+    <<: *jobBase
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Build
+          command: yarn build
+      - save_cache:
+          key: v1-dist-<< parameters.package_name >>-{{ .Revision }}
+          paths:
+            - dist
+  deploy:
+    <<: *jobBase
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - restore_cache:
+          key: v1-dist-<< parameters.package_name >>-{{ .Revision }}
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - run:
+          name: Build and deploy Docker
+          command: |
+            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin https://$DOCKER_REGISTRY
+            docker build -t "$DOCKER_REGISTRY/aom/<< parameters.package_name >>" .
+            docker push "$DOCKER_REGISTRY/aom/<< parameters.package_name >>"
+
+workflows:
+  version: 2
+
+  api:
+    jobs:
+      - install-dependencies:
+          name: api-install-dependencies
+          package_name: api
+      - lint:
+          name: api-lint
+          package_name: api
+          requires:
+            - api-install-dependencies
+      - build:
+          name: api-build
+          package_name: api
+          requires:
+            - api-install-dependencies
+      - deploy:
+          name: api-deploy
+          package_name: api
+          context: vulcan
+          requires:
+            - api-lint
+            - api-build
+          filters:
+            branches:
+              only: master
+
+  web:
+    jobs:
+      - install-dependencies:
+          name: web-install-dependencies
+          package_name: web
+      - lint:
+          name: web-lint
+          package_name: web
+          requires:
+            - web-install-dependencies
+      - build:
+          name: web-build
+          package_name: web
+          requires:
+            - web-install-dependencies
+      - deploy:
+          name: web-deploy
+          package_name: web
+          context: vulcan
+          requires:
+            - web-lint
+            - web-build
+          filters:
+            branches:
+              only: master
