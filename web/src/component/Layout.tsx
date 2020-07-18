@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
-import { StatusMessages } from "./util/StatusMessages";
 import { Navbar } from "./Navbar";
+import { StatusMessages } from "./util/StatusMessages";
 
 const useStyles = makeStyles({
   content: {

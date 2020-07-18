@@ -1,29 +1,31 @@
 import React, { useState } from "react";
-import { SocketEvent } from "../socket/SocketEvent";
+import {
+  Grid, makeStyles, Paper, Typography,
+} from "@material-ui/core";
 import { ILobbyServerMembersPayload } from "../../graphql/types";
-import { Grid, Typography, Paper, makeStyles } from "@material-ui/core";
+import { SocketEvent } from "../socket/SocketEvent";
 
 const useStyles = makeStyles({
   memberContainer: {
     margin: "1em",
-    padding: "1em"
+    padding: "1em",
   },
   championImageContainer: {
     width: 120,
-    height: 120
+    height: 120,
   },
   spellImageContainer: {
     width: 64,
-    height: 64
-  }
+    height: 64,
+  },
 });
 
 export const LobbyMembers: React.FC = () => {
   const [members, setMembers] = useState<ILobbyServerMembersPayload["members"]>([]);
   const classes = useStyles();
 
-  const onMembers = ({ members }: ILobbyServerMembersPayload) => {
-    setMembers(members);
+  const onMembers = (evt: ILobbyServerMembersPayload) => {
+    setMembers(evt.members);
   };
 
   return (
@@ -53,5 +55,5 @@ export const LobbyMembers: React.FC = () => {
         ))}
       </Grid>
     </SocketEvent>
-  )
+  );
 };

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "react-apollo";
-import { IMutation, IMutationCreateLobbyArgs, IQuery } from "../../graphql/types";
+import {
+  Button, FormControl, Grid, InputLabel, MenuItem, Select,
+} from "@material-ui/core";
 import gql from "graphql-tag";
-import { Grid, Button, Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
+import { useMutation, useQuery } from "react-apollo";
+import { Redirect } from "react-router";
+import { IMutation, IMutationCreateLobbyArgs, IQuery } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe, checkQueryResult } from "../../util/graphql";
-import { Redirect } from "react-router";
 
 const QUERY_MAPS = gql`
 query Web_Maps {
@@ -34,11 +36,12 @@ export const CreateLobbyScene: React.FC = () => {
 
   const create = async () => {
     if (!mapId) {
-      return statusStore.setErrorMessage("You must select a map!");
+      statusStore.setErrorMessage("You must select a map!");
+      return;
     }
     try {
       const { lobby } = await callMutationSafe(createLobby, {
-        mapId
+        mapId,
       });
       setLobbyId(lobby._id);
     } catch (err) {

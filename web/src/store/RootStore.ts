@@ -1,8 +1,8 @@
 import { computed } from "mobx";
 import { NavbarStore } from "./NavbarStore";
 import { SettingsStore } from "./SettingsStore";
-import { StatusStore } from "./StatusStore";
 import { SocketStore } from "./SocketStore";
+import { StatusStore } from "./StatusStore";
 
 export class RootStore {
   navbarStore = new NavbarStore();

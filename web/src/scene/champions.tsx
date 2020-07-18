@@ -1,9 +1,9 @@
 import React from "react";
+import { Grid, Typography } from "@material-ui/core";
 import gql from "graphql-tag";
-import { checkQueryResult } from "../util/graphql"
 import { useQuery } from "react-apollo";
 import { IQuery } from "../graphql/types";
-import { Grid, Typography } from "@material-ui/core";
+import { checkQueryResult } from "../util/graphql";
 
 const QUERY_CHAMPIONS = gql`
 query Web_Champions {
@@ -14,15 +14,13 @@ query Web_Champions {
 }
 `;
 
-export const ChampionsScene: React.FC = () => {
-  return checkQueryResult<{ champions: IQuery["champions"] }>(({ champions }) => (
-    <Grid container>
-      {champions.map(({ name, imageUrl }) => (
-        <Grid item>
-          <Typography>{name}</Typography>
-          <img src={imageUrl} alt={`${name}'s avatar`} title={name} />
-        </Grid>
-      ))}
-    </Grid>
-  ))(useQuery(QUERY_CHAMPIONS));
-};
+export const ChampionsScene: React.FC = () => checkQueryResult<{ champions: IQuery["champions"] }>(({ champions }) => (
+  <Grid container>
+    {champions.map(({ name, imageUrl }) => (
+      <Grid item>
+        <Typography>{name}</Typography>
+        <img src={imageUrl} alt={`${name}'s avatar`} title={name} />
+      </Grid>
+    ))}
+  </Grid>
+))(useQuery(QUERY_CHAMPIONS));

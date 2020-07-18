@@ -11,5 +11,5 @@ export const LobbyRollButton: React.FC = () => {
 
   return (
     <Button variant="contained" onClick={roll}>Roll</Button>
-  )
+  );
 };

@@ -71,7 +71,7 @@ export const App: React.FC = () => (
                   path: scene.route,
                   component: scene.component,
                 };
-                return <Route {...props} />
+                return <Route {...props} />;
                 // return scene.authCheck
                 //   ? <SecureRoute {...props} check={scene.authCheck} />
                 //   : <Route {...props} />;

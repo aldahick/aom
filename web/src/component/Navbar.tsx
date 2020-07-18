@@ -2,34 +2,34 @@ import React from "react";
 import {
   AppBar,
   Grid,
+  Link,
   makeStyles,
   Toolbar,
   Typography,
-  Link,
 } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
 import { observer } from "mobx-react";
+import { Link as RouterLink } from "react-router-dom";
+import { scenes } from "../scenes";
 import { ThemeSelect } from "./settings/ThemeSelect";
 import { Grids } from "./util/Grids";
-import { scenes } from "../scenes";
 
 const useStyles = makeStyles({
   titleContainer: {
     marginLeft: "1em",
-    marginRight: "2em"
+    marginRight: "2em",
   },
   titleText: {
     fontWeight: 600,
   },
   navbarLink: {
-    color: "inherit",
+    "color": "inherit",
     "&:hover": {
-      textDecoration: "none"
-    }
+      textDecoration: "none",
+    },
   },
   rightContainer: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 });
 
 export const Navbar: React.FC = observer(() => {
