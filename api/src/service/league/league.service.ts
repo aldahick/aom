@@ -44,6 +44,34 @@ export class LeagueService {
     };
   }
 
+  async getAllItems() {
+    const version = await this.getCurrentVersion();
+    const { data: { data } } = await axios.get<{
+      data: {
+        [id: string]: {
+          name: string;
+          tags: string[];
+          into?: string[];
+          image: {
+            full: string;
+          };
+        };
+      };
+    }>(`${DATA_DRAGON_URL}/${version}/data/en_US/item.json`);
+    return Object.entries(data).map(([id, item]) => ({
+      id,
+      name: item.name,
+      isBoots: item.tags.includes("Boots"),
+      isFinal: (item.into?.length || 0) === 0,
+      imageUrl: `${DATA_DRAGON_URL}/${version}/img/item/${item.image.full}`
+    }));
+  }
+
+  async getCurrentVersion(): Promise<string> {
+    const versions = await this.getApiInstance().DataDragon.getVersions();
+    return versions[0];
+  }
+
   private getApiInstance() {
     return new LolApi({
       key: this.config.leagueKey

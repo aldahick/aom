@@ -13,6 +13,13 @@ export type Scalars = {
 };
 
 
+export type IItem = {
+  __typename?: 'Item';
+  _id: Scalars['String'];
+  name: Scalars['String'];
+  imageUrl: Scalars['String'];
+};
+
 export type IChampion = {
   __typename?: 'Champion';
   _id: Scalars['String'];
@@ -24,6 +31,7 @@ export type IChampion = {
 export type IMutation = {
   __typename?: 'Mutation';
   updateChampions: Scalars['Boolean'];
+  updateItems: Scalars['Boolean'];
   createLobby: ILobby;
 };
 
@@ -31,6 +39,7 @@ export type IQuery = {
   __typename?: 'Query';
   champion: IChampion;
   champions: Array<IChampion>;
+  items: Array<IItem>;
 };
 
 
