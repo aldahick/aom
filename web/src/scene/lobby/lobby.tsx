@@ -3,7 +3,7 @@ import { useRouteMatch } from "react-router";
 import { useStores } from "../../hook/useStores";
 import { LobbyJoinForm } from "../../component/lobby/LobbyJoinForm";
 import { LobbyMembers } from "../../component/lobby/LobbyMembers";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import { LobbyRollButton } from "../../component/lobby/LobbyRollButton";
 
 export const LobbyScene: React.FC = () => {
@@ -16,12 +16,12 @@ export const LobbyScene: React.FC = () => {
   }
 
   return (
-    <Grid container>
-      <Grid item>
-        <LobbyMembers />
-      </Grid>
+    <Grid container direction="column" spacing={3}>
       <Grid item>
         <LobbyRollButton />
+      </Grid>
+      <Grid item>
+        <LobbyMembers />
       </Grid>
     </Grid>
   );
