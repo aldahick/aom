@@ -14,6 +14,10 @@ export class ItemManager {
     return this.db.items.find();
   }
 
+  async getAllFinal() {
+    return this.db.items.find({ isFinal: true });
+  }
+
   async update() {
     const items = await this.league.getAllItems();
     await this.db.items.deleteMany({});

@@ -34,6 +34,13 @@ export type IChampionSpell = {
 };
 
 
+export type IItem = {
+  __typename?: 'Item';
+  _id: Scalars['String'];
+  name: Scalars['String'];
+  imageUrl: Scalars['String'];
+};
+
 export type ILobby = {
   __typename?: 'Lobby';
   _id: Scalars['String'];
@@ -52,6 +59,7 @@ export type ILobbyMember = {
   summonerName: Scalars['String'];
   champion?: Maybe<IChampion>;
   spell?: Maybe<IChampionSpell>;
+  items?: Maybe<Array<IItem>>;
 };
 
 /** lobby.server.members */
@@ -63,6 +71,7 @@ export type ILobbyServerMembersPayload = {
 export type IMutation = {
   __typename?: 'Mutation';
   updateChampions: Scalars['Boolean'];
+  updateItems: Scalars['Boolean'];
   createLobby: ILobby;
 };
 
@@ -70,6 +79,7 @@ export type IQuery = {
   __typename?: 'Query';
   champion: IChampion;
   champions: Array<IChampion>;
+  items: Array<IItem>;
 };
 
 

@@ -39,6 +39,15 @@ export const LobbyMembers: React.FC = () => {
               {member.spell && (
                 <img src={member.spell.imageUrl} alt={`${member.spell.name} icon`} title={member.spell.name} />
               )}
+              {member.items && (
+                <Grid container>
+                  {member.items.map(item => (
+                    <Grid item key={item._id}>
+                      <img src={item.imageUrl} alt={`${item.name} icon`} title={item.name} />
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
             </Paper>
           </Grid>
         ))}

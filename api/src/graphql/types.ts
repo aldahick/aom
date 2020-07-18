@@ -12,14 +12,6 @@ export type Scalars = {
   Upload: File;
 };
 
-
-export type IItem = {
-  __typename?: 'Item';
-  _id: Scalars['String'];
-  name: Scalars['String'];
-  imageUrl: Scalars['String'];
-};
-
 export type IChampion = {
   __typename?: 'Champion';
   _id: Scalars['String'];
@@ -55,6 +47,14 @@ export type IChampionSpell = {
   imageUrl: Scalars['String'];
 };
 
+export type IItem = {
+  __typename?: 'Item';
+  _id: Scalars['String'];
+  name: Scalars['String'];
+  imageUrl: Scalars['String'];
+};
+
+
 export type ILobby = {
   __typename?: 'Lobby';
   _id: Scalars['String'];
@@ -66,6 +66,7 @@ export type ILobbyMember = {
   summonerName: Scalars['String'];
   champion?: Maybe<IChampion>;
   spell?: Maybe<IChampionSpell>;
+  items?: Maybe<Array<IItem>>;
 };
 
 /** lobby.client.join */

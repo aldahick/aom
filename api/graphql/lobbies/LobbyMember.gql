@@ -2,4 +2,5 @@ type LobbyMember {
   summonerName: String!
   champion: Champion
   spell: ChampionSpell
+  items: [Item!]
 }

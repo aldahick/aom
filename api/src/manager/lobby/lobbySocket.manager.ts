@@ -3,12 +3,14 @@ import { singleton } from "tsyringe";
 import { ILobbyServerMembersPayload } from "../../graphql/types";
 import { Lobby, LobbyMember } from "../../model/Lobby";
 import { ChampionManager } from "../champion";
+import { ItemManager } from "../item";
 import { LobbyDataManager } from "./lobbyData.manager";
 
 @singleton()
 export class LobbySocketManager {
   constructor(
     private championManager: ChampionManager,
+    private itemManager: ItemManager,
     private lobbyDataManager: LobbyDataManager,
     private websocketRegistry: WebsocketRegistry
   ) { }
@@ -40,6 +42,7 @@ export class LobbySocketManager {
   async sendMembers(lobbyId: string): Promise<void> {
     const lobby = await this.lobbyDataManager.get(lobbyId);
     const champions = await this.championManager.getAll();
+    const items = await this.itemManager.getAllFinal();
 
     const payload: ILobbyServerMembersPayload = {
       members: lobby.members.map(m => {
@@ -47,7 +50,8 @@ export class LobbySocketManager {
         return {
           summonerName: m.summonerName,
           champion,
-          spell: (champion && m.spellId) ? champion.spells.find(s => s._id === m.spellId) : undefined
+          spell: (champion && m.spellId) ? champion.spells.find(s => s._id === m.spellId) : undefined,
+          items: m.itemIds ? items.filter(i => m.itemIds?.includes(i._id)) : undefined
         };
       })
     };

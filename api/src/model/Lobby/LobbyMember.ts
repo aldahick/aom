@@ -21,6 +21,9 @@ export class LobbyMember {
   @prop()
   spellId?: string;
 
+  @prop({ type: String })
+  itemIds?: string[];
+
   constructor(init?: Omit<LobbyMember, "_id">) {
     Object.assign(this, {
       _id: randomstring.generate(),
