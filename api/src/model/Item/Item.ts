@@ -14,6 +14,9 @@ export class Item {
   isFinal!: boolean;
 
   @prop({ required: true })
+  isConsumed!: boolean;
+
+  @prop({ required: true })
   imageUrl!: string;
 
   @prop({ required: true, type: String })

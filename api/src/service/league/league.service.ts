@@ -51,6 +51,7 @@ export class LeagueService {
       data: {
         [id: string]: {
           name: string;
+          consumed?: boolean;
           tags: string[];
           into?: string[];
           image: {
@@ -65,6 +66,7 @@ export class LeagueService {
       name: item.name,
       isBoots: item.tags.includes("Boots"),
       isFinal: (item.into?.length || 0) === 0,
+      isConsumed: !!item.consumed,
       imageUrl: `${DATA_DRAGON_URL}/${version}/img/item/${item.image.full}`,
       mapIds: Object.entries(item.maps).filter(([, isActive]) => isActive).map(([mapId]) => mapId)
     }));

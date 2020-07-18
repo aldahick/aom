@@ -51,7 +51,7 @@ export class LobbySocketManager {
           summonerName: m.summonerName,
           champion,
           spell: (champion && m.spellId) ? champion.spells.find(s => s._id === m.spellId) : undefined,
-          items: m.itemIds ? items.filter(i => m.itemIds?.includes(i._id)) : undefined
+          items: m.itemIds ? m.itemIds.map(id => items.find(i => i._id === id)!) : undefined
         };
       })
     };

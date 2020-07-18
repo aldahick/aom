@@ -63,7 +63,11 @@ export class LobbyDataManager {
 
   async roll(lobby: Lobby, memberId: string): Promise<void> {
     const champions = await this.championManager.getAll();
-    const allItems = await this.itemManager.getAll();
+    const allItems = await this.itemManager.getAll({
+      isFinal: true,
+      isConsumed: false,
+      mapIds: lobby.mapId
+    });
 
     const champion = champions[_.random(champions.length - 1)];
     const spell = champion.spells[_.random(champion.spells.length - 1)];
