@@ -68,11 +68,23 @@ export type ILobbyServerMembersPayload = {
   members: Array<ILobbyMember>;
 };
 
+export type IMap = {
+  __typename?: 'Map';
+  _id: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type IMutation = {
   __typename?: 'Mutation';
   updateChampions: Scalars['Boolean'];
   updateItems: Scalars['Boolean'];
+  updateMaps: Scalars['Boolean'];
   createLobby: ILobby;
+};
+
+
+export type IMutationCreateLobbyArgs = {
+  mapId: Scalars['String'];
 };
 
 export type IQuery = {
@@ -80,6 +92,7 @@ export type IQuery = {
   champion: IChampion;
   champions: Array<IChampion>;
   items: Array<IItem>;
+  maps: Array<IMap>;
 };
 
 

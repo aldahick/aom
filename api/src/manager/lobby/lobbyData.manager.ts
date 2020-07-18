@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import { singleton } from "tsyringe";
 import { Item } from "../../model/Item";
 import { Lobby, LobbyMember } from "../../model/Lobby";
+import { Map } from "../../model/Map";
 import { DatabaseService } from "../../service/database";
 import { ChampionManager } from "../champion";
 import { ItemManager } from "../item";
@@ -23,9 +24,10 @@ export class LobbyDataManager {
     return lobby;
   }
 
-  async create() {
+  async create(map: Map) {
     return this.db.lobbies.create(new Lobby({
       createdAt: new Date(),
+      mapId: map._id,
       members: []
     }));
   }

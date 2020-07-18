@@ -1,3 +1,4 @@
+import { HttpError } from "@athenajs/core";
 import { singleton } from "tsyringe";
 import { Map } from "../../model/Map";
 import { DatabaseService } from "../../service/database";
@@ -10,11 +11,19 @@ export class MapManager {
     private league: LeagueService
   ) { }
 
-  async getAll() {
+  async get(id: string): Promise<Map> {
+    const map = await this.db.maps.findById(id);
+    if (!map) {
+      throw HttpError.notFound(`Map id=${id} not found`);
+    }
+    return map;
+  }
+
+  async getAll(): Promise<Map[]> {
     return this.db.maps.find();
   }
 
-  async update() {
+  async update(): Promise<void> {
     const maps = await this.league.getAllMaps();
     await this.db.maps.deleteMany({});
     await this.db.maps.insertMany(maps.map(m => new Map({

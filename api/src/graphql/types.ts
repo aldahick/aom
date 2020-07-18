@@ -20,27 +20,6 @@ export type IChampion = {
   spells: Array<IChampionSpell>;
 };
 
-export type IMutation = {
-  __typename?: 'Mutation';
-  updateChampions: Scalars['Boolean'];
-  updateMaps: Scalars['Boolean'];
-  updateItems: Scalars['Boolean'];
-  createLobby: ILobby;
-};
-
-export type IQuery = {
-  __typename?: 'Query';
-  champion: IChampion;
-  champions: Array<IChampion>;
-  maps: Array<IMap>;
-  items: Array<IItem>;
-};
-
-
-export type IQueryChampionArgs = {
-  id: Scalars['String'];
-};
-
 export type IChampionSpell = {
   __typename?: 'ChampionSpell';
   _id: Scalars['String'];
@@ -49,10 +28,30 @@ export type IChampionSpell = {
   imageUrl: Scalars['String'];
 };
 
-export type IMap = {
-  __typename?: 'Map';
-  _id: Scalars['String'];
-  name: Scalars['String'];
+export type IMutation = {
+  __typename?: 'Mutation';
+  updateChampions: Scalars['Boolean'];
+  updateItems: Scalars['Boolean'];
+  updateMaps: Scalars['Boolean'];
+  createLobby: ILobby;
+};
+
+
+export type IMutationCreateLobbyArgs = {
+  mapId: Scalars['String'];
+};
+
+export type IQuery = {
+  __typename?: 'Query';
+  champion: IChampion;
+  champions: Array<IChampion>;
+  items: Array<IItem>;
+  maps: Array<IMap>;
+};
+
+
+export type IQueryChampionArgs = {
+  id: Scalars['String'];
 };
 
 export type IItem = {
@@ -62,6 +61,12 @@ export type IItem = {
   imageUrl: Scalars['String'];
 };
 
+
+export type IMap = {
+  __typename?: 'Map';
+  _id: Scalars['String'];
+  name: Scalars['String'];
+};
 
 export type ILobby = {
   __typename?: 'Lobby';

@@ -1,28 +1,45 @@
 import React, { useState } from "react";
-import { useMutation } from "react-apollo";
-import { IMutation } from "../../graphql/types";
+import { useMutation, useQuery } from "react-apollo";
+import { IMutation, IMutationCreateLobbyArgs, IQuery } from "../../graphql/types";
 import gql from "graphql-tag";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 import { useStores } from "../../hook/useStores";
-import { callMutationSafe } from "../../util/graphql";
+import { callMutationSafe, checkQueryResult } from "../../util/graphql";
 import { Redirect } from "react-router";
 
+const QUERY_MAPS = gql`
+query Web_Maps {
+  maps {
+    _id
+    name
+  }
+}
+`;
+
 const MUTATION_CREATE_LOBBY = gql`
-mutation Web_CreateLobby {
-  lobby: createLobby {
+mutation Web_CreateLobby($mapId: String!) {
+  lobby: createLobby(mapId: $mapId) {
     _id
   }
 }
 `;
 
 export const CreateLobbyScene: React.FC = () => {
-  const [createLobby] = useMutation<{ lobby: IMutation["createLobby"] }>(MUTATION_CREATE_LOBBY);
+  const [createLobby] = useMutation<{ lobby: IMutation["createLobby"] }, IMutationCreateLobbyArgs>(MUTATION_CREATE_LOBBY);
+  const mapsResult = useQuery(QUERY_MAPS);
+
   const [lobbyId, setLobbyId] = useState<string>();
+  const [mapId, setMapId] = useState<string>("");
   const { statusStore } = useStores();
 
   const create = async () => {
+    if (!mapId) {
+      return statusStore.setErrorMessage("You must select a map!");
+    }
     try {
-      const { lobby } = await callMutationSafe(createLobby, {});
+      const { lobby } = await callMutationSafe(createLobby, {
+        mapId
+      });
       setLobbyId(lobby._id);
     } catch (err) {
       statusStore.setErrorMessage(err.message);
@@ -33,11 +50,23 @@ export const CreateLobbyScene: React.FC = () => {
     return <Redirect to={`/lobby/${lobbyId}`} />;
   }
 
-  return (
-    <Grid container>
+  return checkQueryResult<{ maps: IQuery["maps"] }>(({ maps }) => (
+    <Grid container direction="column" spacing={2}>
+      <Grid item xs={2}>
+        <FormControl fullWidth>
+          <InputLabel>Map</InputLabel>
+          <Select fullWidth value={mapId} onChange={evt => setMapId(evt.target.value as string)}>
+            {maps.map(map => (
+              <MenuItem key={map._id} value={map._id}>
+                {map.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
       <Grid item>
         <Button variant="contained" onClick={create}>Create Lobby</Button>
       </Grid>
     </Grid>
-  );
+  ))(mapsResult);
 };

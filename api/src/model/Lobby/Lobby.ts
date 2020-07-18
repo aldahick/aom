@@ -9,6 +9,9 @@ export class Lobby {
   @prop({ required: true })
   createdAt!: Date;
 
+  @prop({ required: true })
+  mapId!: string;
+
   @prop({ required: true, type: LobbyMember })
   members!: LobbyMember[];
 
