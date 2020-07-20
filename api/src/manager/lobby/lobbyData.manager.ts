@@ -63,19 +63,35 @@ export class LobbyDataManager {
 
   async roll(lobby: Lobby, memberId: string): Promise<void> {
     const champions = await this.championManager.getAll();
-    const allItems = await this.itemManager.getAll({
+    const nonBoots = await this.itemManager.getAll({
       isFinal: true,
       isConsumed: false,
-      mapIds: lobby.mapId
+      mapIds: lobby.mapId,
+      metadata: {
+        $nin: ["jungle", "ornn", "trinket", "viktor"]
+      },
+      tags: {
+        $nin: ["Boots", "Consumable"]
+      },
+      name: {
+        $not: /Enchantment/
+      },
+      cost: {
+        $gte: 2000
+      }
+    });
+    const boots = await this.itemManager.getAll({
+      isFinal: true,
+      mapIds: lobby.mapId,
+      tags: "Boots"
     });
 
     const champion = champions[_.random(champions.length - 1)];
-    const spell = champion.spells[_.random(champion.spells.length - 1)];
+    const spells = champion.spells.filter(s => s.maxRank === 5);
+    const spell = spells[_.random(spells.length - 1)];
 
-    const boots = allItems.filter(i => i.isBoots);
     const items: Item[] = [boots[_.random(boots.length - 1)]];
 
-    const nonBoots = allItems.filter(i => !i.isBoots);
     _.range(5).forEach(() => {
       const index = _.random(nonBoots.length - 1);
       items.push(nonBoots.splice(index, 1)[0]);

@@ -8,9 +8,6 @@ export class Item {
   name!: string;
 
   @prop({ required: true })
-  isBoots!: boolean;
-
-  @prop({ required: true })
   isFinal!: boolean;
 
   @prop({ required: true })
@@ -21,6 +18,15 @@ export class Item {
 
   @prop({ required: true, type: String })
   mapIds!: string[];
+
+  @prop()
+  cost?: number;
+
+  @prop({ required: true, type: String })
+  tags!: string[];
+
+  @prop({ required: true, type: String })
+  metadata!: string[];
 
   constructor(init?: Item) {
     Object.assign(this, init);

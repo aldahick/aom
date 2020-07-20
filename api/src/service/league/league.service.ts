@@ -54,18 +54,26 @@ export class LeagueService {
           consumed?: boolean;
           tags: string[];
           into?: string[];
+          from?: string[];
+          colloq?: string;
           image: {
             full: string;
           };
           maps: {[key: string]: boolean};
+          gold: {
+            total: number;
+            purchasable: boolean;
+          };
         };
       };
     }>(`${DATA_DRAGON_URL}/${version}/data/en_US/item.json`);
     return Object.entries(data).map(([id, item]) => ({
       id,
       name: item.name,
-      isBoots: item.tags.includes("Boots"),
-      isFinal: (item.into?.length || 0) === 0,
+      tags: item.tags,
+      metadata: _.uniq(_.compact(item.colloq?.split(";").map(t => t.toLowerCase().trim()))).sort(),
+      cost: item.gold.purchasable ? item.gold.total : undefined,
+      isFinal: item.from ? item.from.length > 0 : false,
       isConsumed: !!item.consumed,
       imageUrl: `${DATA_DRAGON_URL}/${version}/img/item/${item.image.full}`,
       mapIds: Object.entries(item.maps).filter(([, isActive]) => isActive).map(([mapId]) => mapId)
