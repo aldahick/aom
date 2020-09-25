@@ -15,5 +15,6 @@ COPY tsconfig.json ./
 COPY src ./src
 COPY public ./public
 
+COPY scripts ./scripts
 # building here so that appropriate env variables can be inserted outside of CI
 CMD yarn start:prod
