@@ -9,11 +9,11 @@ WORKDIR /app
 
 COPY package.json ./
 COPY yarn.lock ./
-RUN yarn install
+RUN yarn --frozen-lockfile
 
 COPY tsconfig.json ./
 COPY src ./src
 COPY public ./public
 
 # building here so that appropriate env variables can be inserted outside of CI
-CMD npm run serve
+CMD yarn start:prod
