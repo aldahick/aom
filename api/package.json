@@ -26,7 +26,7 @@
     "@athenajs/core": "^0.6.1",
     "@hapi/joi": "^17.1.1",
     "@typegoose/typegoose": "^7.3.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "graphql": "^15.3.0",
     "lodash": "^4.17.19",
     "reflect-metadata": "^0.1.13",
